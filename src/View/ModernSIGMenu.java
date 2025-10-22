@@ -6,9 +6,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import view.CadastroEmpresaFrame;
-// Remova a importação do JInternalFrame se não for mais usá-lo diretamente
-// import view.CadastroEmpresaFrame; 
-
 /**
  * Menu modernizado para o Sistema Integrado Gerencial (SIG)
  * Utiliza design moderno com cores suaves, tipografia melhorada e interatividade com abas.
@@ -44,6 +41,7 @@ public class ModernSIGMenu extends JFrame {
         setSize(1200, 800); // Aumentei um pouco para melhor visualização
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(900, 700));
+        setResizable(false);
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -64,19 +62,19 @@ public class ModernSIGMenu extends JFrame {
     menuBar.setBorder(new EmptyBorder(8, 15, 8, 15));
     menuBar.setPreferredSize(new Dimension(0, 60));
         // Menus
-        JMenu cadastrosMenu = createModernMenu("📋 Cadastros");
-        cadastrosMenu.add(createMenuItem("Clientes"));
+        JMenu cadastrosMenu = createModernMenu("Cadastros");
+        cadastrosMenu.add(createMenuItem("Empresa"));
         cadastrosMenu.add(createMenuItem("Produtos"));
         cadastrosMenu.add(createMenuItem("Fornecedores"));
         cadastrosMenu.add(createMenuItem("Funcionários"));
         menuBar.add(cadastrosMenu);
 
-        JMenu consultasMenu = createModernMenu("🔍 Consultas");
+        JMenu consultasMenu = createModernMenu("Consultas");
         consultasMenu.add(createMenuItem("Vendas"));
         consultasMenu.add(createMenuItem("Estoque"));
         menuBar.add(consultasMenu);
 
-        JMenu relatoriosMenu = createModernMenu("📊 Relatórios");
+        JMenu relatoriosMenu = createModernMenu("Relatórios");
         relatoriosMenu.add(createMenuItem("Vendas por Período"));
         relatoriosMenu.add(createMenuItem("Relatório Financeiro"));
         menuBar.add(relatoriosMenu);
@@ -87,13 +85,7 @@ public class ModernSIGMenu extends JFrame {
 
 private JMenu createModernMenu(String text) {
     JMenu menu = new JMenu(text);
-    
-    // --- ALTERAÇÃO AQUI ---
-    // menu.setForeground(WHITE);         // Antigo: Texto branco
-    menu.setForeground(TEXT_COLOR);      // Novo: Texto cinza escuro (quase preto)
-    // ou, para preto puro:
-    // menu.setForeground(Color.BLACK);
-
+    menu.setForeground(TEXT_COLOR);
     menu.setFont(new Font("Segoe UI", Font.BOLD, 14));
     menu.setBorder(new EmptyBorder(10, 15, 10, 15));
     menu.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -307,7 +299,7 @@ private JMenu createModernMenu(String text) {
         // 2. Se a aba não existe, cria o painel de conteúdo apropriado
         Component newTabContent; // Usamos Component para ser mais genérico
 
-        if ("Clientes".equalsIgnoreCase(content)) {
+        if ("Empresa".equalsIgnoreCase(content)) {
             // --- LÓGICA PARA ABRIR JINTERNALFRAME ---
 
             // a. Cria um JDesktopPane, que servirá como a "área de trabalho" para as janelas internas
@@ -326,6 +318,16 @@ private JMenu createModernMenu(String text) {
             //Dimension desktopSize = desktopPane.getSize();
             //Dimension frameSize = internalFrame.getSize();
             //internalFrame.setLocation((desktopSize.width - frameSize.width) / 2, (desktopSize.height - frameSize.height) / 2);
+            
+             // --- LÓGICA DE CENTRALIZAÇÃO --
+
+            // 3. Calcula a posição (x, y) para centralizar
+            int x = 830;
+            int y = 185;
+
+            // 4. Define a posição da janela interna
+            internalFrame.setLocation(x, y);
+            // --- FIM DA LÓGICA DE CENTRALIZAÇÃO ---
 
             // e. O conteúdo da nova aba será o JDesktopPane
             newTabContent = desktopPane;

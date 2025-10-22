@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -116,6 +118,46 @@ public class LoginScreenModerno extends JFrame {
         passField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         gbc.gridy = 2;
         panel.add(passField, gbc);
+        
+        // Adicionar o KeyListener ao JPasswordField
+        passField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Verificar se a tecla pressionada foi Enter (código 10 ou 13)
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    
+                    // 3. Código a ser executado quando o botão é clicado
+                ControleDb conexao = new ControleDb();
+                conexao.conectar();
+        
+                String query = "SELECT login, pswd FROM public.usuarios WHERE login ='" +userField.getText()+"' AND pswd = '"+passField.getText()+"'";
+                System.out.println(query);
+                    try {
+                        PreparedStatement pst = conexao.conexao.prepareStatement(query);
+                        ResultSet rs= pst.executeQuery(); 
+                        if(rs.next())
+                           {
+                                ModernSIGMenu menu = new ModernSIGMenu();  
+                                menu.setVisible(true);
+                                menu.setLocationRelativeTo(null);
+                                menu.setExtendedState(Frame.MAXIMIZED_BOTH);
+                                setVisible(false);
+                                //splitPane.dispose();
+                            }
+                        else
+                            {
+                                JOptionPane.showMessageDialog(null,"Usuario não Cadastrado ou Senha invalida! ");                     
+                            }
+                
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro na inserção!\nErro: " + ex.getMessage());
+                    }
+                               
+                conexao.desconectar();
+                   
+                }
+            }
+        });
 
         // Botão Entrar
         JButton loginButton = new JButton("Entrar");
@@ -129,38 +171,37 @@ public class LoginScreenModerno extends JFrame {
         gbc.insets = new Insets(20, 0, 10, 0);
         panel.add(loginButton, gbc);
         
-                loginButton.addActionListener(new ActionListener() {
+        loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 3. Código a ser executado quando o botão é clicado
                 ControleDb conexao = new ControleDb();
-        conexao.conectar();
+                conexao.conectar();
         
-             String query = "SELECT login, pswd FROM public.usuarios WHERE login ='" +userField.getText()+"' AND pswd = '"+passField.getText()+"'";
+                String query = "SELECT login, pswd FROM public.usuarios WHERE login ='" +userField.getText()+"' AND pswd = '"+passField.getText()+"'";
                 System.out.println(query);
-        try {
-              PreparedStatement pst = conexao.conexao.prepareStatement(query);
-              ResultSet rs= pst.executeQuery(); 
-              if(rs.next())
-                {
-                    ModernSIGMenu menu = new ModernSIGMenu();  
-                    menu.setVisible(true);
-                    menu.setLocationRelativeTo(null);
-                    menu.setExtendedState(Frame.MAXIMIZED_BOTH);
-                    setVisible(false);
-                   //splitPane.dispose();
-                }
-              else
-                  {
-                       JOptionPane.showMessageDialog(null,"Usuario não Cadastrado ou Senha invalida! ");                     
-                  }
-              
-           
-        } catch (SQLException ex) {
-          JOptionPane.showMessageDialog(null, "Erro na inserção!\nErro: " + ex.getMessage());
-        }
+                    try {
+                        PreparedStatement pst = conexao.conexao.prepareStatement(query);
+                        ResultSet rs= pst.executeQuery(); 
+                        if(rs.next())
+                           {
+                                ModernSIGMenu menu = new ModernSIGMenu();  
+                                menu.setVisible(true);
+                                menu.setLocationRelativeTo(null);
+                                menu.setExtendedState(Frame.MAXIMIZED_BOTH);
+                                setVisible(false);
+                                //splitPane.dispose();
+                            }
+                        else
+                            {
+                                JOptionPane.showMessageDialog(null,"Usuario não Cadastrado ou Senha invalida! ");                     
+                            }
+                
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro na inserção!\nErro: " + ex.getMessage());
+                    }
                                
-        conexao.desconectar();
+                conexao.desconectar();
             }
         });
         
@@ -187,8 +228,7 @@ public class LoginScreenModerno extends JFrame {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                  System.setProperty("awt.useSystemAAFontSettings", "on");
                 System.setProperty("swing.aatext", "true");
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             }
             new LoginScreenModerno().setVisible(true);
         });

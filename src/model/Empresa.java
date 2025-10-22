@@ -10,7 +10,7 @@ public class Empresa {
     private String RazaoSocial;
     private String NomeResumido;
     private String Cnpj;
-    private int InscEstadual;
+    private String InscEstadual;
     private String Telefone;
     private String WhatSapp;
     private String Logradouro;
@@ -23,11 +23,11 @@ public class Empresa {
     private String InscMunicipal;
     private String Cnae;
     private String Responsavel;
-    private int CpfRespon;
+    private String CpfRespon;
     private String RegimeTrib;
     private String Logomarca;
     
-    public Empresa(int Codigo,String RazaoSocial,String NomeResumido,String Cnpj,int InscEstadual,String Telefone,String WhatSapp,String Logradouro,String Numero,String Bairro,String Cidade,String Estado,int Cep,String Ibge,String InscMunicipal,
+    public Empresa(int Codigo,String RazaoSocial,String NomeResumido,String Cnpj,String InscEstadual,String Telefone,String WhatSapp,String Logradouro,String Numero,String Bairro,String Cidade,String Estado,int Cep,String Ibge,String InscMunicipal,
                    String Cnae,String Responsavel,int CpfRespon,String RegimeTrib,String Logomarca){
         this.Codigo = Codigo;
         this.RazaoSocial = RazaoSocial;
@@ -46,7 +46,7 @@ public class Empresa {
         this.InscMunicipal = InscMunicipal;
         this.Cnae = Cnae;
         this.Responsavel = Responsavel;
-        this.CpfRespon = CpfRespon;
+        this.CpfRespon = this.CpfRespon;
         this.RegimeTrib = RegimeTrib;
         this.Logomarca = Logomarca;        
     }
@@ -75,7 +75,7 @@ public class Empresa {
         this.NomeResumido = NomeResumido;
     }
 
-    public int getInscEstadual() {
+    public String getInscEstadual() {
         return InscEstadual;
     }
 
@@ -87,7 +87,7 @@ public class Empresa {
         this.Cnpj = Cnpj;
     }
 
-    public void setInscEstadual(int InscEstadual) {
+    public void setInscEstadual(String InscEstadual) {
         this.InscEstadual = InscEstadual;
     }
 
@@ -187,11 +187,11 @@ public class Empresa {
         this.Responsavel = Responsavel;
     }
 
-    public int getCpfRespon() {
+    public String getCpfRespon() {
         return CpfRespon;
     }
 
-    public void setCpfRespon(int CpfRespon) {
+    public void setCpfRespon(String CpfRespon) {
         this.CpfRespon = CpfRespon;
     }
 
